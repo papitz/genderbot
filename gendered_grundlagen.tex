@@ -1,0 +1,143 @@
+% !TEX root = ../termpaper.tex
+% Grundlagen
+% @author Paul Höppner
+%
+\chapter{Grundlagen}
+\section{Begriffsklärung} % (fold)
+\label{sec:Begriffsklärung}
+
+\subsection{Softwarearchitektur} % (fold)
+\label{sub:Software_Architektur}
+Softwarearchitektur ist ein sehr umfangreiches Gebiet und lässt sich schwer mit einer kurzen und prägnanten Definition beschreiben.
+Len Bass und Rick Kazman haben folgende Definition vorgeschlagen~\cite{softArchInPractice}:
+% LTeX: SETTINGS language=en-US
+\glqq{}The software architecture of a program or computing system is the structure or structures of the system, which comprise software components, the externally visible properties of those components, and the relationships among them.\grqq{}.~\cite{softArchGrundl}\\
+% LTeX: SETTINGS language=de-DE
+\glq{}Software components\grq{} lassen sich hierbei als Software Bausteine übersetzen.
+Mit Software Bausteinen sind die Teile, aus denen sich eine Software zusammensetzt, gemeint.
+Hierbei können die Bausteine grob in drei Kategorien unterteilt werden~\cite{softArchGrundl}:
+\begin{enumerate}
+    \item fachliche Bausteine
+    \item technische Bausteine
+    \item Plattform-Bausteine
+\end{enumerate}
+
+Dabei ist anzumerken, dass der Übergang zwischen den Kategorien fließend ist.\\
+Fachliche Bausteine repräsentieren den Problembereich der Software und somit unter anderem die, an die Software gestellten, funktionalen Anforderungen.~\cite{softArchGrundl}\\
+
+Auf fachlicher Ebene ist der Grad der Abstraktion sehr hoch und die Bausteine haben wenige Abhängigkeiten zur Plattform.
+Unter der fachlichen Ebene liegt die technische Ebene, welche die nicht-funktionalen Anforderungen abdeckt.
+Ein Beispiel für einen technischen Baustein ist die Datenbank als Persistenzlösung.
+Im Vergleich zur fachlichen Ebene sinkt der Grad der Abstraktion der technischen Bausteine und die Abhängigkeit zur Plattform steigt.
+Technische Bausteine können grobe fachliche Bausteine feiner unterteilen.
+Vogel führt hier als Beispiel den fachlichen Baustein der Auftragsverwaltung an, der durch Verwendung des MVC-Musters (Näheres hierzu in Kapitel~\ref{sub:Model_View_Controller}), einer Art der technischen Architektur, in drei einzelne Bausteine, den Modell-, View- sowie Controller-Baustein aufgespalten wird.\\
+\dots
+
+\subsection{Minimal Viable Product} % (fold)
+\label{sub:Minimal_Viable_Product}
+%   TODO: erste stelle der erwähnung finden
+%   TODO: pareto
+Das Minimal Viable Product (Im Folgenden als MVP bezeichnet) bezeichnet die Iteration eines Produktes, welche so weit fortgeschritten ist, dass sie die minimalen Ansprüche des Kunden erfüllt~\cite{MVPOriginal}.
+Es ist besonders nützlich um in einem frühen Stadium des Projektes Feedback von Kunden einzuholen.\\
+%  TODO: Zitat ordentlich einbinden
+\glqq{}According to Lean Startup, every startup should start with building a Minimum viable product (MVP), and use it to validate their hypotheses about customer needs\grqq{}~\cite{MVPodrMFP}.\\
+Es sind verschiedene Möglichkeiten der Umsetzung eines MVPs denkbar, wie zum Beispiel~\cite{MVPodrMFP}:
+
+\begin{enumerate}
+    \item eine Landingpage, also eine Website, auf der ein Kunde landet, sobald die Website aufgerufen wird und das Design sowie einige Grundfunktionalitäten präsentieren kann
+    \item ein Mockup des Produktes, welches die Anwendung auf Papier oder einem ähnlichen Medium darstellt
+    \item ein \glqq{}Wizard of Oz\grqq{} MVP, bei dem der Kunde den Eindruck hat, als würde er ein fertiges Produkt bedienen, obwohl nur das Interface funktional ist, während die Logik händisch ausgeführt wird
+    \item ein Frontend MVP, bei dem die gesamte Logik des Produktes in dem Frontend ausgeführt wird und nur ein minimales bis kein Backend vorhanden ist
+\end{enumerate}
+
+Welche Art des MVP gewählt werden sollte, hängt hierbei stark von den Anforderungen an das Produkt ab.\\
+
+Ein MVP hat viele Gemeinsamkeiten mit einem Prototyp, es handelt sich aber nicht um das gleich Konzept.
+Anders als beim MVP ist der Prototyp nicht für den Endkunden, also im Fall einer Website den Anwender, sondern für den Auftraggeber gedacht, um die Kommunikation zwischen Auftraggeber und Entwickler zu vereinfachen.
+Protoyping beschreibt sehr viel allgemeiner den Vorgang mithilfe eines Teilproduktes die Kommunikation zu vereinfachen.
+Hierbei geht es auch um die Kommunikation innerhalb des Entwicklerteams.~\cite{floyd1984systematic}\\
+Floyd beschreibt in ihrem Paper \glq{}A systematic look at Prototyping\grq{} die, in dieser Arbeit genauer betrachteten, Frontend Prototypen, den sie als \glqq{}Human Interface (Front End) Simulation\grqq{} bezeichnet.
+Sie beschreibt hier einen Prototyp, der ein finales Frontend präsentiert, aber dessen andere Funktionalitäten, wie die Evaluierung der eingegebenen Daten, nicht vollständig, sondern nur als Mockup implementiert sind.~\cite{floyd1984systematic}
+
+\section{Architekturprinzipien} % (fold)
+\label{sec:Architektur_Prinzipien}
+Um die Motivation hinter verschiedenen Architekturmustern zu verstehen, ist es notwendig einige grundlegende Prinzipien zu verstehen.
+Die dafür wichtigsten sind in diesem Kapitel aufgeführt.
+
+\subsection{Prinzip der losen Kopplung und hohen Kohäsion} % (fold)
+\label{sub:Prinzip_der_loosen_Kopplung_und_hohen_Kohäsion}
+Unter der Kopplung eines Systems versteht man die Abhängigkeiten von Systembausteinen untereinander.
+Hierbei ist zwischen unterschiedlich starken Abhängigkeiten zu unterscheiden.
+Greifen Klassen beispielsweise auf die privaten Daten einer anderen Klasse direkt zu, besitzen diese Klassen eine hohe Kopplung, da zur Änderung der einen Klasse Wissen über die internen Strukturen der anderen Klasse notwendig ist.
+Ist der Datenzugriff im Gegensatz dazu über einen Methodenaufruf realisiert, spricht man zwar immer noch von einer Kopplung, diese ist aber wesentlich loser als in dem vorher genannten Beispiel, da keine Kenntnis der inneren Struktur der anderen Klasse notwendig ist.
+In einem System ist einen lose Kopplung erstrebenswert, da dies die Wartung und Anpassung von Bausteinen erleichtert.~\cite{softArchGrundl}\\
+Ein weiteres Prinzip, auf das in Zusammenhang mit loser Kopplung geachtet werden muss, ist das Vermeiden von zirkulären Abhängigkeiten.
+Hierbei wäre Komponente A von Komponente B abhängig, welche dann wiederum von Komponente C abhängig ist.
+Komponente C ist jedoch von Komponente A abhängig, wodurch eine zirkuläre Abhängigkeit entsteht (siehe Abb.~\ref{fig:../images/circ_depend.png}).
+Diese zirkulären Abhängigkeiten sollten unbedingt vermieden werden, da sie zu einer hohen Kopplung führen.
+Wird eine der Komponenten verändert, muss der gesamte Zyklus getestet und damit auch verstanden werden um Komponente A zu testen.
+
+\includenamedimage[.7]{../images/circ_depend.png}{Darstellung zirkulärer Abhängigkeiten}
+
+Mit einer losen Kopplung entsteht häufig eine hohe Kohäsion.
+Kohäsion beschreibt hierbei die interne Abhängigkeit der Klasse beziehungsweise, wie gut die Klasse ihre spezifische Aufgabe erfüllt.
+Es sollte also darauf geachtet werden, dass für eine Aufgabe nicht mehrere Klassen geschrieben werden, die dann wiederum einen hohe Kopplung besitzen, sondern die Funktionalität in einer Klasse gebündelt wird.~\cite{softArchGrundl}
+
+\subsection{Separation of Concerns} % (fold)
+\label{sub:Separation_of_Concerns}
+Separation of Concerns, zu übersetzen als Trennung von Belangen, ist ein Prinzip, dass in der Softwareentwicklung in vielen Bereichen und nicht nur in der Softwarearchitektur verwendet wird.
+Es beschreibt die Praxis Probleme in kleinere, weniger Komplexe, Teilbereiche aufzutrennen und folgt damit dem römischen Prinzip \glqq{}Teile und Herrsche\grqq{} (oft auch als \glqq{}Divide and Conquer\grqq{} bezeichnet).~\cite{softArchGrundl}\\
+
+Das Prinzip lässt sich auf beliebig tiefen Abstraktionsebenen anwenden.
+So ist sieht es vor, dass einzelne Module nur wenige Aufgaben haben, aber auch auf Klassen- und Methodenebene nur jeweils ein bestimmtes Belangen umgesetzt wird.~\cite{eilebrecht2018patterns}~\cite{softArchGrundl}\\
+
+Wird das Prinzip gut umgesetzt, führt es zu einer losen Kopplung sowie einer hohen Kohäsion und einer einfacheren Wartung des Systems.
+Auftretende Probleme können entsprechend geteilt und dann von mehreren Teams parallel gelöst werden.~\cite{softArchGrundl}
+
+\subsection{Entwurf für Veränderung} % (fold)
+\label{sub:Entwurf_für_Veraenderung}
+Da sich Software in einem ständigen Wandel befindet, handelt es sich bei Anwendungen selten um statische Produkte.
+Antizipiert man zukünftig nötige Veränderungen bereits während des Entwurfsprozesses spricht man vom sogenannten Entwurf für Veränderung (englisch: Design for Change).~\cite{softArchGrundl}\\
+Das Prinzip ist sehr allgemeingültig und sagt im Grunde nur aus, dass die Architektur bestmöglich auf spätere Veränderungen vorbereitet sein sollte.
+Dabei ist zwischen erwartbaren und nicht erwartbaren Änderungen zu unterscheiden.
+Während erwartbare Änderungen explizit vorbereitet werden können, muss das System für nicht erwartbare Änderungen so entworfen werden, dass es generell erweiterbar ist.\\
+Achtet man während des Entwurfs auf eine lose Kopplung ist der Entwurf für Veränderung häufig leichter umzusetzen.
+Ein Nachteil dieses Prinzips ist, dass änderbare Architekturen häufig weniger performant als statische, weshalb immer zwischen Leistung und Änderbarkeit abgewogen werden muss.~\cite{softArchGrundl}
+
+\subsection{Information-Hiding-Prinzip} % (fold)
+\label{sub:Information-Hiding-Prinzip}
+Für das Verstehen von Anwendungen können zu viele Informationen schnell kontraproduktiv sein.
+Dieses Problem soll das Information-Hiding-Prinzip lösen.
+Hierzu besagt es, dass Klienten nur die Informationen präsentiert bekommen, die unbedingt notwendig sind.
+Alle restlichen Informationen werden vor dem Klienten verborgen.
+Das Prinzip ist von großer Bedeutung hinsichtlich des Verständnisses von großen Anwendungen und sollte deswegen unbedingt beachtet werden.~\cite{softArchGrundl}\\
+Eine Anwendung des Information-Hiding-Prinzips findet sich in der Modularisierung, da hier die Module nach außen nur durch Schnittstellen Informationen austauschen.
+Sind keine Informationen über die inneren Strukturen bekannt, spricht man von sogenannten Black-Boxes.~\cite{softArchGrundl}\\
+Durch Information-Hiding wird eine losere Kopplung erzwungen, da für eine hohe Kopplung Kenntnisse über innere Strukturen notwendig sind.
+
+
+\section{Architekturstile} % (fold)
+\label{sec:Übersicht_Architekturen}
+Das Ziel der Arbeit ist nicht eine fertige Gesamtarchitektur zu erstellen, sondern einen Architekturstil vorzuschlagen.
+Unter einem Architekturstil versteht man eine Menge von architektonischen Lösungen für Probleme, welche sich zu einer nicht vollständig spezifizierten Architektur zusammensetzt.
+Der Stil beinhaltet Vorschläge für zu verwendende Patterns und Topologien der Komponenten.~\cite{softArchInPractice}
+
+Verschiedenste Architekturmuster, an denen man sich während der Softwareentwicklung orientieren kann, sind über die Jahre entstanden.
+Die wichtigsten davon sollen hier kurz beleuchtet werden, um einen guten Überblick zu schaffen.
+
+\subsection{Monolith} % (fold)
+\label{sub:Monolith}
+Die als \glq{}Worst Case\grq{} geltende Architektur wird als Monolith bezeichnet.
+Hierbei wird das gesamte System in einer Komponente realisiert, was dafür sorgt, dass keine Separation of Concerns geschieht.
+Monolithen entstehen oft eher aus alten Systemen als dass sie aktiv geplant werden.
+Eine lose Kopplung ist nicht zu erreichen, da keine gekoppelten Bausteine vorhanden sind, man kann deshalb weder von loser noch enger Kopplung sprechen.~\cite{softArchGrundl}\\
+
+Monolithen sind häufig sehr schwer anzupassen und zu testen.
+Meist gibt es nur wenige Entwickler, die das gesamte System ausreichend gut verstehen, um Änderungen umzusetzen, was dazu führt, dass monolithische Systeme schwer zu pflegen sind, wenn diese Entwickler das Unternehmen verlassen.
+Generell sollte ein klassischer Monolith nicht das Ergebnis einer Architekturplanung sein.~\cite{softArchGrundl}
+
+\subsection{Model View Controller} % (fold)
+\label{sub:Model_View_Controller}
+Das bereits erwähnte Model View Controller (MVC) Muster unterteilt die Verantwortlichkeiten bei Benutzerschnittstellen in drei Rollen.
+Die drei Rollen sind das Model, welches für die Verwaltung der darzustellenden Daten verantwortlich ist, die View, die für die Darstellung sorgt und der Controller, welcher Benutzereingaben verwaltet und Daten ändert.
+Der Controller sorgt außerdem für die Aktualisierung der View.\\
